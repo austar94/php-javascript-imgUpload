@@ -30,7 +30,7 @@ function readURLSet(input) {
 	//확장자 검사
     if(ext.length > 0){
 		if($.inArray(ext, ["gif","png","jpg","jpeg"]) == -1) {
-			alert("gif,png,jpg 파일만 업로드 할수 있습니다
+			alert("gif,png,jpg 파일만 업로드 할수 있습니다");
 
 			let agent 	=	navigator.userAgent.toLowerCase();
 			if ( (navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)) {
