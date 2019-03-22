@@ -1,70 +1,66 @@
 
-// 이미지 삽입
-function img_upSet(e) {
-
-	var id = $(e).attr('id');
-	var order = id.split("_")[1];
-	$('input[name="img_'+order+'"]').trigger('click');
+// canvas 태그 선택시 file 인풋 실행
+function imgUploadSet(e) {
+	$(e).closest('.img_upload').find('input').trigger('click');
 }
 
 
-// 이미지 보이기
+// 인풋 file onchange 이벤트 작동
 function img_changeSet(e) {
-
-	var id          =   $(e).attr('id');
-	var order       =   id.split("_")[1];
-	var str         =   '';
-
-    str             +=  '<canvas class="canvas_full canvas_'+order+'"></canvas>';
-	str             +=  '<img src="/common/img/no-images.png" alt="이미지" class="hide imgShow_'+ order +'">';
-	str             +=  '<a href="#none" class="imgDel" id="imgDel_'+ order +'" onclick="img_delSet(this)"></a>';
-
-	$(e).parent().append(str); // 이미지 및 삭제버튼 추가
-    $(e).siblings('.imgUp').remove(); // 이미지 업로드버튼 삭제
-    
+	//캔버스 초기화
+    let canvas		=	$(e).closest('.img_upload').find('canvas');
+    let ctx			=	canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+	$(e).closest('.img_upload').find('img').attr('src', '/img/no-images.png');					//기존 img태그 내용 초기화
+	
+	//삭제 버튼이 없을경우 이미지 태그 밑에 삭제버튼 추가
+	if(!$(e).closest('img_upload').find('a').length){
+		$(e).closest('.img_upload').find('img').after('<a href="#none" onclick="img_delSet(this)">이미지삭제</a>');
+	}
+	
 	readURLSet(e);
 }
 
 function readURLSet(input) {
-    var id          =   $(input).attr('id');
-	var order       =   id.split("_")[1];
-    var ext         =   $(input).val().split(".").pop().toLowerCase();
+    let ext         	=   $(input).val().split(".").pop().toLowerCase();			//확장자 가져옴
+	let canvasTag		=	$(input).closest('.img_upload').find('canvas');			//캔버스 태그
+	let imgTag			=	$(input).closest('.img_upload').find('img');			//이미지 태그
 
+	//확장자 검사
     if(ext.length > 0){
 		if($.inArray(ext, ["gif","png","jpg","jpeg"]) == -1) {
-			alert("gif,png,jpg 파일만 업로드 할수 있습니다.");
-			var file    =   $(input);
+			alert("gif,png,jpg 파일만 업로드 할수 있습니다
 
-			var agent = navigator.userAgent.toLowerCase();
+			let agent 	=	navigator.userAgent.toLowerCase();
 			if ( (navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)) {
-				file.replaceWith( file.clone(true) );
+				input.replaceWith( input.clone(true) );
 			}else{
-				file.val("");
+				input.val("");
 			}
 			return false;
 		}
     }
     
-    
-
+	//파일이 정상적으로 올라와있을경우 회전값 검사
     // If file is loaded, create new FileReader
-	if (input.files && input.files[0]) {
+	if (input.files && input.files[0]) {	
 		  
         // Create a FileReader
-        var reader = new FileReader();
+        let reader			=	new FileReader();
         // Set onloadend function on reader
-        reader.onloadend = function (e) {
+        reader.onloadend 	=	function (e) {
             
           // Update an image tag with loaded image source
           // $('.imgShow').attr('src', URL.createObjectURL(event.target.files[0]));
-          $('.imgShow_' + order).attr('src', e.target.result);
+          $(imgTag).attr('src', e.target.result);
           // Use EXIF library to handle the loaded image exif orientation
           EXIF.getData(input.files[0], function() {
               
             // Fetch image tag
-            var img = $(".imgShow_" + order).get(0);
+            var img 		=	$(imgTag).get(0);
             // Fetch canvas
-            var canvas = $(".canvas_" + order).get(0);
+            var canvas 		=	$(imgTag).get(0);
             // run orientation on img in canvas
             orientation(img, canvas);
         });
@@ -140,19 +136,14 @@ function orientation(img, canvas) {
 // 이미지 삭제
 function img_delSet(e) {
 
-
-	var id = $(e).attr('id');
-	var order = id.split("_")[1];
-
-	var str = '<a href="#none" class="imgUp" id="imgUp_'+ order +'" onclick="img_upSet(this)"></a>';
-
-	$('input[name="img_'+order+'"]').val(''); // 이미지값 초기화
-	$('#isDel_'+order).val('Y');
-
-	$(e).parent().append(str); // 이미지 업로드버튼 생성
-
-	$(e).siblings('img').remove(); // 이미지 삭제
-	$(e).remove(); // 이미지 삭제버튼 삭제
-	$('#isDel_'+order).val('Y');
-
+	let imgTag				=	$(e).closest('.img_upload').find('img');
+	let canvasTag			=	$(e).closest('.img_upload').find('canvas');
+	let input				=	$(e).closest('.img_upload').find('input');
+	
+	$(input).val('');													//input file 내용 초기화 
+	let ctx			=	canvas.getContext('2d');						//캔버스 내용 초기화
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+	$(e).closest('.img_upload').find('img').attr('src', '/img/no-images.png');					//기존 img태그 내용 초기화
+	$(e).remove();											//삭제 버튼 삭제
 }
