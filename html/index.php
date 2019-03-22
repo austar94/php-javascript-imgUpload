@@ -1,7 +1,8 @@
 <form id="frm">
     <div class="img_upload">
-        <input type="file" name="imgFile_1" onchange="imgUploadSet(event, this)">
-        <img src="/img/no-images.png" class="img_1">
+        <input type="file" name="imgFile" onchange="img_changeSet(this)">
+        <canvas onclick="imgUploadSet(this)"></canvas>
+        <img src="/img/no-images.png" style="display:none">  
     </div>
 </form>
 <button type="button" onclick="uploadImgProc()">upload img</button>
