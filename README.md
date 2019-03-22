@@ -7,7 +7,9 @@
 exif-js를 이용합니다. 하단 참고
 
 /html/index.php 
+
 /js/img.js
+
 /event/uploadImg.php
 
 
