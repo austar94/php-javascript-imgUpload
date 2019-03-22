@@ -140,10 +140,10 @@ function img_delSet(e) {
 	let canvasTag			=	$(e).closest('.img_upload').find('canvas');
 	let input				=	$(e).closest('.img_upload').find('input');
 	
-	$(input).val('');													//input file 내용 초기화 
-	let ctx			=	canvas.getContext('2d');						//캔버스 내용 초기화
+	$(input).val('');																			//input file 내용 초기화 
+	let ctx					=	canvas.getContext('2d');										//캔버스 내용 초기화
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
 	$(e).closest('.img_upload').find('img').attr('src', '/img/no-images.png');					//기존 img태그 내용 초기화
-	$(e).remove();											//삭제 버튼 삭제
+	$(e).remove();																				//삭제 버튼 삭제
 }
