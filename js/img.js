@@ -14,11 +14,6 @@ function img_changeSet(e) {
     ctx.beginPath();
 	$(e).closest('.img_upload').find('img').attr('src', '/img/no-images.png');					//기존 img태그 내용 초기화
 	
-	//삭제 버튼이 없을경우 이미지 태그 밑에 삭제버튼 추가
-	if(!$(e).closest('img_upload').find('a').length){
-		$(e).closest('.img_upload').find('img').after('<a href="#none" onclick="img_delSet(this)">이미지삭제</a>');
-	}
-	
 	readURLSet(e);
 }
 
@@ -145,5 +140,4 @@ function img_delSet(e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
 	$(e).closest('.img_upload').find('img').attr('src', '/img/no-images.png');					//기존 img태그 내용 초기화
-	$(e).remove();																				//삭제 버튼 삭제
 }
