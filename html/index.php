@@ -2,7 +2,8 @@
     <div class="img_upload">
         <input type="file" name="imgFile" onchange="img_changeSet(this)">
         <canvas onclick="imgUploadSet(this)"></canvas>
-        <img src="/img/no-images.png" style="display:none">  
+        <img src="/img/no-images.png" style="display:none"> 
+        <button onclick="delete_img(this)">이미지삭제</button>
     </div>
 </form>
 <button type="button" onclick="uploadImgProc()">upload img</button>
